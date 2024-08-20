@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source <(curl -s https://raw.githubusercontent.com/matteocrippa/Proxmox/blob/feature/timemachine/misc/build.func)
+source <(curl -s https://raw.githubusercontent.com/matteocrippa/Proxmox/feature/timemachine/misc/build.func)
 
 # Copyright (c) 2024 tteck, matteocrippa
 # License: MIT
@@ -68,10 +68,13 @@ else
 fi
 }
 
+  bash -c "$(wget -qLO - https://raw.githubusercontent.com/matteocrippa/Proxmox/feature/timemachine/ct/timamachine.sh)"
+
+
 function update_script() {
 header_info
 if [[ ! -d /srv/samba/timemachine ]]; then msg_error "No ${APP} Installation Found!"; exit; fi
-wget -qL https://raw.githubusercontent.com/matteocrippa/Proxmox/blob/feature/timemachine/timemachine-install.sh
+wget -qL https://raw.githubusercontent.com/matteocrippa/Proxmox/raw/feature/timemachine/install/timemachine-install.sh
 bash timemachine-install.sh
 msg_ok "Updated Successfully"
 exit

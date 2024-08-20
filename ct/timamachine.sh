@@ -68,9 +68,6 @@ else
 fi
 }
 
-  bash -c "$(wget -qLO - https://raw.githubusercontent.com/matteocrippa/Proxmox/feature/timemachine/ct/timamachine.sh)"
-
-
 function update_script() {
 header_info
 if [[ ! -d /srv/samba/timemachine ]]; then msg_error "No ${APP} Installation Found!"; exit; fi

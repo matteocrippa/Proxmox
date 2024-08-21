@@ -51,21 +51,21 @@ function default_settings() {
   echo_default
 }
 
-# function edit_shared_folder() {
-# header_info
-# echo "Editing the Time Machine shared folder..."
+function edit_shared_folder() {
+header_info
+echo "Editing the Time Machine shared folder..."
 
-# read -p "Enter the new mount point (e.g., /mnt/pxe): " new_mount
-# if [ -d "$new_mount" ]; then
-#     sed -i "s|/srv/samba/timemachine|$new_mount|g" /etc/samba/smb.conf
-#     mkdir -p "$new_mount"
-#     chown -R timemachine:timemachine "$new_mount"
-#     systemctl restart smbd
-#     msg_ok "Updated shared folder path to $new_mount"
-# else
-#     msg_error "Directory $new_mount does not exist."
-# fi
-# }
+read -p "Enter the new mount point (e.g., /mnt/pxe): " new_mount
+if [ -d "$new_mount" ]; then
+    sed -i "s|/srv/samba/timemachine|$new_mount|g" /etc/samba/smb.conf
+    mkdir -p "$new_mount"
+    chown -R timemachine:timemachine "$new_mount"
+    systemctl restart smbd
+    msg_ok "Updated shared folder path to $new_mount"
+else
+    msg_error "Directory $new_mount does not exist."
+fi
+}
 
 function update_script() {
 header_info

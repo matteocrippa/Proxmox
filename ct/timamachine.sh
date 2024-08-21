@@ -7,12 +7,12 @@ source <(curl -s https://raw.githubusercontent.com/matteocrippa/Proxmox/feature/
 function header_info {
 clear
 cat <<"EOF"
-   ____  _           __  __           _      
-  / ___|| |_ _ __ __|  \/  | ___  ___| | ___ 
-  \___ \| __|  __/ _  |\/| |/ _ \/ __| |/ _ \
-   ___) | |_| | | (_| |  | |  __/ (__| |  __/
-  |____/ \__|_|  \__,_|  |_|\___|\___|_|\___|
-                                             
+  _______                __  ___           __    _          
+ /_  __(_)___ ___  ___  /  |/  /___ ______/ /_  (_)___  ___ 
+  / / / / __ `__ \/ _ \/ /|_/ / __ `/ ___/ __ \/ / __ \/ _ \
+ / / / / / / / / /  __/ /  / / /_/ / /__/ / / / / / / /  __/
+/_/ /_/_/ /_/ /_/\___/_/  /_/\__,_/\___/_/ /_/_/_/ /_/\___/ 
+                                                            
 EOF
 }
 header_info
@@ -51,28 +51,29 @@ function default_settings() {
   echo_default
 }
 
-function edit_shared_folder() {
-header_info
-echo "Editing the Time Machine shared folder..."
+# function edit_shared_folder() {
+# header_info
+# echo "Editing the Time Machine shared folder..."
 
-read -p "Enter the new mount point (e.g., /mnt/pxe): " new_mount
-if [ -d "$new_mount" ]; then
-    sed -i "s|/srv/samba/timemachine|$new_mount|g" /etc/samba/smb.conf
-    mkdir -p "$new_mount"
-    chown -R timemachine:timemachine "$new_mount"
-    systemctl restart smbd
-    msg_ok "Updated shared folder path to $new_mount"
-else
-    msg_error "Directory $new_mount does not exist."
-fi
-}
+# read -p "Enter the new mount point (e.g., /mnt/pxe): " new_mount
+# if [ -d "$new_mount" ]; then
+#     sed -i "s|/srv/samba/timemachine|$new_mount|g" /etc/samba/smb.conf
+#     mkdir -p "$new_mount"
+#     chown -R timemachine:timemachine "$new_mount"
+#     systemctl restart smbd
+#     msg_ok "Updated shared folder path to $new_mount"
+# else
+#     msg_error "Directory $new_mount does not exist."
+# fi
+# }
 
 function update_script() {
 header_info
 if [[ ! -d /srv/samba/timemachine ]]; then msg_error "No ${APP} Installation Found!"; exit; fi
-wget -qL https://raw.githubusercontent.com/matteocrippa/Proxmox/raw/feature/timemachine/install/timemachine-install.sh
-bash timemachine-install.sh
-msg_ok "Updated Successfully"
+msg_info "Updating $APP LXC"
+apt-get update &>/dev/null
+apt-get -y upgrade &>/dev/null
+msg_ok "Updated $APP LXC"
 exit
 }
 
